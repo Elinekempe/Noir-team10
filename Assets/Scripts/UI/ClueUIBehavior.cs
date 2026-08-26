@@ -13,10 +13,11 @@ public class ClueUIBehavior : MonoBehaviour
     {
         ClueUIGroup = GetComponent<CanvasGroup>();
         ClueText = GetComponentInChildren<TMP_Text>();
-        ActivateUI();
+        DeactivateUI();
     }
-    void ActivateUI()
+    public void ActivateUI(string clueinfo)
     {
+        ClueInfo = clueinfo;
         UpdateUI();
         ClueUIGroup.alpha = 1;
     }
