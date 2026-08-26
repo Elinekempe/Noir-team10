@@ -13,6 +13,9 @@ public class ParentHoverHandler2D : MonoBehaviour
     [SerializeField] private bool includeChildren = true;
     [SerializeField] private bool includeInactiveChildren = false;
 
+    [Header("Clue settings")]
+    [SerializeField] private ClueUIBehavior clueUI;
+
     private readonly Dictionary<GameObject, Vector3> originalScales = new Dictionary<GameObject, Vector3>();
     private readonly Dictionary<GameObject, Coroutine> activeAnimations = new Dictionary<GameObject, Coroutine>();
     private readonly List<GameObject> allChildren = new List<GameObject>();
@@ -57,6 +60,10 @@ public class ParentHoverHandler2D : MonoBehaviour
 
         if (hitObject == currentHoverObject)
         {
+            if (Input.GetMouseButtonDown(0) && hitObject != null)
+            {
+                ShowClue(hitObject);
+            }
             return;
         }
 
@@ -71,6 +78,27 @@ public class ParentHoverHandler2D : MonoBehaviour
         }
 
         currentHoverObject = hitObject;
+    }
+
+    private void ShowClue(GameObject clickedObject)
+    {
+        if (clickedObject == null)
+        {
+            return;
+        }
+
+        if (clueUI == null)
+        {
+            clueUI = FindAnyObjectByType<ClueUIBehavior>();
+        }
+
+        var clueItem = clickedObject.GetComponent<ClueItem>();
+        var clueText = clueItem != null ? clueItem.clueText : "Geen hint beschikbaar";
+
+        if (clueUI != null)
+        {
+            clueUI.ActivateUI(clueText);
+        }
     }
 
     private void FindAllChildren(Transform parent)
