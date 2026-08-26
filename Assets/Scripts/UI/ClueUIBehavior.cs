@@ -7,6 +7,15 @@ public class ClueUIBehavior : MonoBehaviour
     private TMP_Text clueText;
     public string ClueInfo;
 
+    private void Update()
+    {
+        // Works with mouse clicks and screen touches
+        if (Input.GetMouseButtonDown(0))
+        {
+            DeactivateUI();
+        }
+    }
+
     private void Start()
     {
         clueUIGroup = GetComponent<CanvasGroup>();
