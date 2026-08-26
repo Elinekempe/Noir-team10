@@ -1,33 +1,52 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ClueUIBehavior : MonoBehaviour
 {
-    private CanvasGroup ClueUIGroup;
-    private TMP_Text ClueText;
+    private CanvasGroup clueUIGroup;
+    private TMP_Text clueText;
     public string ClueInfo;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-        ClueUIGroup = GetComponent<CanvasGroup>();
-        ClueText = GetComponentInChildren<TMP_Text>();
+        clueUIGroup = GetComponent<CanvasGroup>();
+        if (clueUIGroup == null)
+        {
+            clueUIGroup = gameObject.AddComponent<CanvasGroup>();
+        }
+
+        clueText = GetComponentInChildren<TMP_Text>(true);
         DeactivateUI();
     }
+
     public void ActivateUI(string clueinfo)
     {
         ClueInfo = clueinfo;
         UpdateUI();
-        ClueUIGroup.alpha = 1;
+
+        if (clueUIGroup != null)
+        {
+            clueUIGroup.alpha = 1f;
+            clueUIGroup.interactable = true;
+            clueUIGroup.blocksRaycasts = true;
+        }
     }
-    void DeactivateUI()
+
+    public void DeactivateUI()
     {
-        ClueUIGroup.alpha = 0;
+        if (clueUIGroup != null)
+        {
+            clueUIGroup.alpha = 0f;
+            clueUIGroup.interactable = false;
+            clueUIGroup.blocksRaycasts = false;
+        }
     }
-    void UpdateUI()
+
+    private void UpdateUI()
     {
-        Debug.Log(ClueInfo);
-        ClueText.text = ClueInfo;
+        if (clueText != null)
+        {
+            clueText.text = ClueInfo;
+        }
     }
 }
