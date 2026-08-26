@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class ClueUIBehavior : MonoBehaviour
@@ -8,12 +9,23 @@ public class ClueUIBehavior : MonoBehaviour
     private TMP_Text ClueText;
     public string ClueInfo;
 
+    public InputAction PressLMB;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void Update()
+    {
+            // Works with mouse clicks and screen touches
+            if (Input.GetMouseButtonDown(0))
+            {
+                DeactivateUI();
+            }
+    }
+
     void Start()
     {
         ClueUIGroup = GetComponent<CanvasGroup>();
         ClueText = GetComponentInChildren<TMP_Text>();
-        DeactivateUI();
+        ActivateUI("Info");
     }
     public void ActivateUI(string clueinfo)
     {
@@ -29,5 +41,9 @@ public class ClueUIBehavior : MonoBehaviour
     {
         Debug.Log(ClueInfo);
         ClueText.text = ClueInfo;
+    }
+    void OnMouseDown()
+    {
+        DeactivateUI();
     }
 }
